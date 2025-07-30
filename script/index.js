@@ -16,6 +16,9 @@ const loadCategories = async () => {
 const loadVideos = async (search = "") => {
     const videosUrl = `https://openapi.programming-hero.com/api/phero-tube/videos?title=${search}`;
     try {
+        // show loading animation
+        showLoader();
+        
         const response = await fetch(videosUrl);
         const videosData = await response.json();
         const videosArr = (videosData.videos);
@@ -30,42 +33,51 @@ const loadVideos = async (search = "") => {
     removeActiveClass();
 
     // Make the 'all' button red
-    addActiveClass("btn-all"); 
+    addActiveClass("btn-all");
 }
 
-// fetch video with catagory id and post to page
-const loadCategoryVideos =  (id)=>{
-    
+// fetch video with category id and post to page
+const loadCategoryVideos = (id) => {
+
+    // show loading animation
+    showLoader();
+
     const loadCategoryVideosUrl = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
     fetch(loadCategoryVideosUrl)
-    .then(res=>res.json())
-    .then(data=> displayVideos(data.category));
+        .then(res => res.json())
+        .then(data => displayVideos(data.category));
 
     // Make the inactive buttons
     removeActiveClass();
 
     // Make the active button red
-    addActiveClass(`btn-${id}`);    
+    addActiveClass(`btn-${id}`);
+
 
 }
 
 // function to post videos into page
 const displayVideos = (videosArr) => {
+    // show loading animation
+    showLoader();
     // console.log(videosArr);
     // get the videos-container
     const videosContainer = document.getElementById("videos-container");
 
     // make the video container empty
-    videosContainer.innerHTML="";
-    
+    videosContainer.innerHTML = "";
+
     // If no videos
-    if (videosArr.length==0) {
+    if (videosArr.length == 0) {
         videosContainer.innerHTML = `
         <div class="col-span-full text-center flex flex-col justify-center items-center py-32">
             <img src="./assets/Icon.png" class="w-30"></img>
             <h2 class="text-2xl font-bold py-9                       ">Oops!! Sorry, There is no content here</h2>
         <div>
         `
+        // hide loading animation
+        hideLoader();
+
         return;
     }
 
@@ -75,8 +87,8 @@ const displayVideos = (videosArr) => {
         const videoCard = document.createElement("div")
 
         // logic for filling verification data
-        let verificationBadge ="";
-        if(video.authors[0].verified){
+        let verificationBadge = "";
+        if (video.authors[0].verified) {
             verificationBadge = "https://img.icons8.com/?size=48&id=98A4yZTt9abw&format=png";
         }
 
@@ -103,6 +115,9 @@ const displayVideos = (videosArr) => {
             </div>
         </div>
         `
+
+        // hide loading animation
+        hideLoader()
         // append the element
         videosContainer.appendChild(videoCard);
     })
@@ -136,7 +151,7 @@ const displayCategories = (categoriesArr) => {
 // function to make the buttons inactive
 const removeActiveClass = () => {
     const nonActiveBtns = [...document.getElementsByClassName("cat-btn")];
-    nonActiveBtns.forEach(nonActiveBtn=>{
+    nonActiveBtns.forEach(nonActiveBtn => {
         nonActiveBtn.classList.remove("active");
     })
 }
@@ -150,10 +165,27 @@ const addActiveClass = (btnId) => {
 // Search Functionality
 
 const searchField = document.getElementById("search-input");
-searchField.addEventListener("keyup",(e)=> {
+searchField.addEventListener("keyup", (e) => {
     const input = e.target.value;
-   loadVideos(input);
+    loadVideos(input);
 })
 
+// loading toggle functionality
+const showLoader = () => {
+    const loaderContainer = document.getElementById("loader");
+    const videosContainer = document.getElementById("videos-container");
+    loaderContainer.classList.remove("hidden");
+    videosContainer.classList.add("hidden");
+
+}
+
+const hideLoader = () => {
+    const loaderContainer = document.getElementById("loader");
+    const videosContainer = document.getElementById("videos-container");
+    loaderContainer.classList.add("hidden");
+    videosContainer.classList.remove("hidden");
+}
+
+// function called right after loading the page
 loadCategories();
 loadVideos();
