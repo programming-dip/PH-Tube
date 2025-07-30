@@ -1,33 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PH-Tube</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .active {
+            background: #FF1F3D;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
     <header>
-        <nav class="w-11/12 mx-auto flex justify-between border-b-2 border-[#17171720] py-5"> 
+        <nav class="w-11/12 mx-auto flex justify-between border-b-2 border-[#17171720] py-5">
             <div class="logo">
                 <img class="w-[120px]" src="assets/Logo.png" alt="">
             </div>
-            <div class="sort">
-                <button class="btn">Sort by view</button>
+            <div class="search">
+                <label class="input">
+                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none"
+                            stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                        </g>
+                    </svg>
+                    <input type="search" id="search-input" required placeholder="Search" />
+                </label>
             </div>
-            <div class="blogs">
-                <button class="btn bg-[#FF1F3D] text-white">Blogs</button>
+            <div class="sort">
+                <button class="btn bg-[#FF1F3D] text-white">Sort by view</button>
             </div>
         </nav>
     </header>
 
     <nav id="category-container" class="flex justify-center py-5 gap-5">
-        <button class="btn btn-sm bg-[#FF1F3D] text-white">All</button>
-        
+        <button onclick="loadVideos()" id="btn-all"
+            class="btn btn-sm active hover:bg-[#FF1F3D] hover:text-white cat-btn">All</button>
+
     </nav>
 
+    <section id="videos-container" class="w-11/12 mx-auto grid md:grid-cols-4 gap-5">
 
-    <script  src="./script/index.js"></script>
+    </section>
+
+
+
+    <script src="./script/index.js"></script>
 </body>
+
 </html>
